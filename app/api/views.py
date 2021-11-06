@@ -57,9 +57,10 @@ class PostUpvote(APIView):
 
 
 class PostUnvote(APIView):
-
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        if post.vote <= 0:
+            return Response(data={'Vote amount of this post is 0.'}, status=status.HTTP_400_BAD_REQUEST)
         post.vote -= 1
         post.save()
         serializer = PostSerializer(instance=post)
