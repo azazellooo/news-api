@@ -2,11 +2,11 @@ from django.contrib.auth.views import LoginView
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import PostViewSet, CommentVieSet
+from .views import PostViewSet, CommentViewSet
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
-router.register(r'comments', CommentVieSet)
+router.register(r'comments', CommentViewSet)
 app_name = 'api'
 
 urlpatterns = [
