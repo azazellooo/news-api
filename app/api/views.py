@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -16,8 +16,10 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [PostDeleteUpdatePermission]
 
     def get_permissions(self):
-        if self.request.method in ('POST', 'GET'):
+        if self.request.method == 'GET':
             return [AllowAny()]
+        elif self.request.method == 'POST':
+            return [IsAuthenticated()]
         return super(PostViewSet, self).get_permissions()
 
     def create(self, request, *args, **kwargs):
@@ -34,8 +36,10 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [CommentDeleteUpdatePermission]
 
     def get_permissions(self):
-        if self.request.method in ('POST', 'GET'):
+        if self.request.method == 'GET':
             return [AllowAny()]
+        elif self.request.method == 'POST':
+            return [IsAuthenticated()]
         return super(CommentViewSet, self).get_permissions()
 
     def create(self, request, *args, **kwargs):
