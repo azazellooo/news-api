@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Post, Comment
-from .serializers.post import PostSerializer
+from .serializers.post import PostSerializer, PostCreateSerializer
 from .serializers.comment import CommentSerializer
 from .permissions import PostDeleteUpdatePermission, CommentDeleteUpdatePermission
 
@@ -21,7 +21,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return super(PostViewSet, self).get_permissions()
 
     def create(self, request, *args, **kwargs):
-        serializer = PostSerializer(data=request.data)
+        serializer = PostCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(author=self.request.user)
             return Response(status=status.HTTP_201_CREATED)
